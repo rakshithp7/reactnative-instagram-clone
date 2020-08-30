@@ -34,6 +34,7 @@ const data = [
 const Stories = () => {
   return (
     <FlatList
+      style={styles.container}
       data={data}
       keyExtractor={({ name }) => name}
       renderItem={({ item }) => (
@@ -47,4 +48,8 @@ const Stories = () => {
 
 export default Stories;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 5,
+  },
+});

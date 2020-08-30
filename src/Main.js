@@ -1,10 +1,14 @@
 import React from "react";
 
-import ProfilePicture from "./components/ProfilePicture";
-import Stories from "./components/Stories";
+import Feed from "./components/Feed";
+import { View } from "react-native";
 
 const Main = () => {
-  return <Stories />;
+  return (
+    <View>
+      <Feed />
+    </View>
+  );
 };
 
 export default Main;
