@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
   },
   image: {
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: "#e3e3e3",
   },
 });
