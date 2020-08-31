@@ -4,17 +4,17 @@ import { useNavigation } from "@react-navigation/native";
 
 import ProfilePicture from "./ProfilePicture";
 
-const Story = ({ imageUri, name }) => {
+const Story = ({ user }) => {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate("Story");
+    navigation.navigate("Story", { userId: user.id });
   };
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <ProfilePicture uri={imageUri} />
-      <Text style={styles.name}>{name}</Text>
+      <ProfilePicture uri={user.imageUri} />
+      <Text style={styles.name}>{user.name}</Text>
     </TouchableOpacity>
   );
 };
