@@ -8,13 +8,13 @@ import Footer from "./Footer";
 const Post = ({ post }) => {
   return (
     <View style={styles.container}>
-      <Header imageUri={post.user.imageUri} name={post.user.name} />
-      <Body imageUri={post.imageUri} />
+      <Header imageUri={post.user.image} name={post.user.name} />
+      <Body imageUri={post.image} />
       <Footer
         username={post.user.name}
         caption={post.caption}
-        likesCount={post.likesCount}
-        postedAt={post.postedAt}
+        likesCount={post.likes}
+        postedAt={post.createdAt}
       />
     </View>
   );

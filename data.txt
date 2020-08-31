@@ -1,0 +1,193 @@
+mutation user1 {
+  createUser(input: {name: "Rakshith", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/88946651_184331523011449_3927406279730921472_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=w42x-a-yntcAX9Ynvbk&oh=ad9e8b22c4e324012aae8e22edeadf06&oe=5F7743AE"}) {
+    id
+    name
+  }
+}
+
+mutation user2 {
+  createUser(input: {name: "Ritwik", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/106582968_633995627464499_7264728415554450674_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=vwkf5XaXn3UAX8-QIDM&oh=63d0e61461fc18fcfcf4e0aa4616482b&oe=5F76DF10"}) {
+    id
+    name
+  }
+}
+
+mutation user3 {
+  createUser(input: {name: "Aryaman", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/117737860_189345602577970_6336609404481365192_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=ltPslW8AzGIAX8IDaIX&oh=f51ddff9fd143ac493052959ac46e579&oe=5F73C18A"}) {
+    id
+    name
+  }
+}
+
+mutation user4 {
+  createUser(input: {name: "Vineeth", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/70861624_2242457685863894_7765938837020213248_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=sq7JT7wpwDYAX_LzUG9&oh=3da12f8fd56e3561ddd9e4aab237faa0&oe=5F7435BB"}) {
+    id
+    name
+  }
+}
+
+mutation user5 {
+  createUser(input: {name: "Pranjal", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/103171785_683006512481009_6702587271527958792_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=hNm4tUDGQtwAX9kWpF5&oh=b85ae557908f72bd4ebe71d520215ac4&oe=5F73A90E"}) {
+    id
+    name
+  }
+}
+
+mutation user6 {
+  createUser(input: {name: "Saheer", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/60484589_371153050199875_4557648603924922368_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=SS72jwVNmnAAX__a2n2&oh=1b046994ba010e41d41a2e1db889f788&oe=5F7763D0"}) {
+    id
+    name
+  }
+}
+
+mutation user7 {
+  createUser(input: {name: "Sanath", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/118510185_316806462875236_5107661883107746312_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=TtZ1QUJs6RQAX8Ah_nJ&oh=22430ae6b11001fa87fa58a3eaa41609&oe=5F7636BB"}) {
+    id
+    name
+  }
+}
+
+mutation post1 {
+  createPost(input: {userID: "",likes: 400,caption: "Bounded with memories", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/92324737_1091763994541723_4617489255928145985_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_cat=111&_nc_ohc=ZD_RsXxanLAAX8sCmSC&oh=93e722b260023a2abd5599f5c4a23392&oe=5F761D5C"}) {
+    id
+    image
+    caption
+    user {
+      name
+    }
+  }
+}
+
+mutation story1 {
+  createStory(input: {userID: "", image: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Eiffel_Tower_Vertical.JPG"}) {
+    id
+    image
+    user {
+      name
+    }
+  }
+}
+
+mutation post2 {
+  createPost(input: {userID: "",likes: 1203,caption: "dhinchak pranjal", image: "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-15/e35/118544258_156828729372864_6315605676354768524_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_cat=100&_nc_ohc=QPToYnswauQAX-4yNry&oh=9ea6db8bffb156104d3dbaaed5344c98&oe=5F7391E9"}) {
+    id
+    image
+    caption
+    user {
+      name
+    }
+  }
+}
+
+mutation story2 {
+  createStory(input: {userID: "", image: "https://images.unsplash.com/photo-1526512340740-9217d0159da9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}) {
+    id
+    image
+    user {
+      name
+    }
+  }
+}
+
+mutation post3 {
+  createPost(input: {userID: "", likes: 420,caption: "Im a good boi", image: "https://scontent-bom1-1.cdninstagram.com/v/t51.2885-15/e35/118258353_415224759452382_6162109352583301155_n.jpg?_nc_ht=scontent-bom1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=OTFBgN27xBwAX9XuzJd&oh=a6c0beff3a5dec6022ae90f56d4dd37b&oe=5F764B39"}) {
+    id
+    image
+    caption
+    user {
+      name
+    }
+  }
+}
+
+mutation story3 {
+  createStory(input: {userID: "", image: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Eiffel_Tower_Vertical.JPG"}) {
+    id
+    image
+    user {
+      name
+    }
+  }
+}
+
+mutation post4 {
+  createPost(input: {userID: "",likes: 200, caption: "kawai deska", image: "https://cdnuploads.aa.com.tr/uploads/Contents/2020/05/14/thumbs_b_c_88bedbc66bb57f0e884555e8250ae5f9.jpg?v=140708"}) {
+    id
+    image
+    caption
+    user {
+      name
+    }
+  }
+}
+
+mutation story4 {
+  createStory(input: {userID: "", image: "https://images.unsplash.com/photo-1526512340740-9217d0159da9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}) {
+    id
+    image
+    user {
+      name
+    }
+  }
+}
+
+mutation story5 {
+  createStory(input: {userID: "", image: "https://images.unsplash.com/photo-1534856966153-c86d43d53fe0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80"}) {
+    id
+    image
+    user {
+      name
+    }
+  }
+}
+
+mutation story6 {
+  createStory(input: {userID: "", image: "https://ipt.imgix.net/201784/x/0/how-and-why-you-should-shoot-vertical-landscape-photos-4?auto=compress%2Cformat&ch=Width%2CDPR&dpr=1&ixlib=php-3.3.0&w=883"}) {
+    id
+    image
+    user {
+      name
+    }
+  }
+}
+
+mutation story7 {
+  createStory(input: {userID: "", image: "https://images.unsplash.com/photo-1534142499731-a32a99935397?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9"}) {
+    id
+    image
+    user {
+      name
+    }
+  }
+}
+
+query listPosts {
+  listPosts {
+    items {
+      caption
+      createdAt
+      id
+      image
+      user {
+        id
+        image
+        name
+      }
+    }
+  }
+}
+
+query listStorys {
+  listStorys {
+    items {
+      createdAt
+      id
+      image
+      user {
+        id
+        image
+        name
+      }
+    }
+  }
+}

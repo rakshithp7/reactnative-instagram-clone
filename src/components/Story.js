@@ -13,7 +13,7 @@ const Story = ({ user }) => {
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <ProfilePicture uri={user.imageUri} />
+      <ProfilePicture uri={user.image} />
       <Text style={styles.name}>{user.name}</Text>
     </TouchableOpacity>
   );

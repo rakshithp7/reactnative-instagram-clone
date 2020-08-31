@@ -10,40 +10,34 @@ import {
   View,
   TextInput,
 } from "react-native";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { API, graphqlOperation } from "aws-amplify";
 import Icon from "react-native-vector-icons/Entypo";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
+import Moment from "react-moment";
 
-import storiesData from "../data/StoriesData";
 import ProfilePicture from "../components/ProfilePicture";
+import { listStorys } from "../graphql/queries";
 
 const StoryScreen = () => {
-  const [userStories, setUserStories] = useState([]);
+  const [stories, setStories] = useState([]);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
-  const navigation = useNavigation();
-  const route = useRoute();
-  const userId = route.params.userId;
 
   useEffect(() => {
-    const userStories = storiesData.find(
-      (storyData) => storyData.user.id === userId
-    );
-
-    setUserStories(userStories);
+    fetchStories();
     setActiveStoryIndex(0);
   }, []);
 
-  const navigateToNextUser = () => {
-    navigation.push("Story", { userId: (parseInt(userId) + 1).toString() });
-  };
-
-  const navigateToPrevUser = () => {
-    navigation.push("Story", { userId: (parseInt(userId) - 1).toString() });
+  const fetchStories = async () => {
+    try {
+      const storiesData = await API.graphql(graphqlOperation(listStorys));
+      setStories(storiesData.data.listStorys.items);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const handleNextStory = () => {
-    if (activeStoryIndex >= userStories.stories.length - 1) {
-      navigateToNextUser();
+    if (activeStoryIndex >= stories.length - 1) {
       return;
     }
     setActiveStoryIndex(activeStoryIndex + 1);
@@ -51,7 +45,6 @@ const StoryScreen = () => {
 
   const handlePreviousStory = () => {
     if (activeStoryIndex <= 0) {
-      navigateToPrevUser();
       return;
     }
     setActiveStoryIndex(activeStoryIndex - 1);
@@ -67,7 +60,7 @@ const StoryScreen = () => {
     }
   };
 
-  if (!userStories?.stories) {
+  if (!stories) {
     return (
       <SafeAreaView>
         <ActivityIndicator />
@@ -75,24 +68,24 @@ const StoryScreen = () => {
     );
   }
 
-  const activeStory = userStories.stories[activeStoryIndex];
+  const activeStory = stories[activeStoryIndex];
 
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <ImageBackground
           style={styles.storyImage}
-          source={{ uri: activeStory.imageUri }}
+          source={{ uri: activeStory?.image }}
         >
           <View style={styles.storyHeader}>
             <View style={styles.storyInfoContainer}>
-              <ProfilePicture uri={userStories.user.imageUri} size={35} />
+              <ProfilePicture uri={activeStory?.user.image} size={35} />
               <Text style={styles.storyInfoUserName}>
-                {userStories.user.name}
+                {activeStory?.user.name}
               </Text>
-              <Text style={styles.storyInfoPostedTime}>
-                {activeStory.postedTime}
-              </Text>
+              <Moment element={Text} style={styles.storyInfoPostedTime} fromNow>
+                {activeStory?.createdAt}
+              </Moment>
             </View>
             <Icon
               style={styles.storyHeaderdotsIcon}
@@ -151,7 +144,7 @@ const styles = StyleSheet.create({
   storyInfoPostedTime: {
     marginLeft: 12,
     fontSize: 12,
-    color: "#d9d9d9",
+    color: "#e3e3e3",
   },
   storyHeaderdotsIcon: {
     marginRight: 5,

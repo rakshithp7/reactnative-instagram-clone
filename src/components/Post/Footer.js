@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import Moment from "react-moment";
+
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
@@ -51,7 +53,7 @@ const Footer = ({
         <Text style={styles.username}>{username}</Text>
         <Text>{caption}</Text>
       </View>
-      <Text style={styles.postedAt}>{postedAt}</Text>
+      <Moment element={Text} style={styles.postedAt} date={postedAt} fromNow />
     </View>
   );
 };
