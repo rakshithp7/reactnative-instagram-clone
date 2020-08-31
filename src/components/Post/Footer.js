@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
-import ADIcon from "react-native-vector-icons/AntDesign";
+import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
-import FAIcon from "react-native-vector-icons/FontAwesome";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import IoniconsIcon from "react-native-vector-icons/SimpleLineIcons";
 
 const Footer = ({
@@ -33,15 +33,15 @@ const Footer = ({
         <View style={styles.leftIcons}>
           <TouchableWithoutFeedback onPress={onLikePressed}>
             {isLiked ? (
-              <ADIcon name="heart" size={25} color={"#e73838"} />
+              <AntDesignIcon name="heart" size={25} color={"#e73838"} />
             ) : (
-              <ADIcon name="hearto" size={25} />
+              <AntDesignIcon name="hearto" size={25} />
             )}
           </TouchableWithoutFeedback>
           <FontistoIcon name="comment" size={22} />
           <IoniconsIcon name="paper-plane" size={23} />
         </View>
-        <FAIcon name="bookmark-o" size={25} />
+        <FontAwesomeIcon name="bookmark-o" size={25} />
       </View>
       <View style={styles.containerLikes}>
         <Text style={styles.likesCount}>{likesCount}</Text>

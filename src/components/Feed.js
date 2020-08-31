@@ -6,6 +6,7 @@ import Post from "./Post/Post";
 
 const posts = [
   {
+    id: "1",
     user: {
       imageUri:
         "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/106582968_633995627464499_7264728415554450674_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=vwkf5XaXn3UAX8-QIDM&oh=63d0e61461fc18fcfcf4e0aa4616482b&oe=5F76DF10",
@@ -18,6 +19,7 @@ const posts = [
     postedAt: "3 hours ago",
   },
   {
+    id: "2",
     user: {
       imageUri:
         "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/103171785_683006512481009_6702587271527958792_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=hNm4tUDGQtwAX9kWpF5&oh=b85ae557908f72bd4ebe71d520215ac4&oe=5F73A90E",
@@ -30,6 +32,7 @@ const posts = [
     postedAt: "2 Days ago",
   },
   {
+    id: "3",
     user: {
       imageUri:
         "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/117737860_189345602577970_6336609404481365192_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=ltPslW8AzGIAX8IDaIX&oh=f51ddff9fd143ac493052959ac46e579&oe=5F73C18A",
@@ -48,7 +51,7 @@ const Feed = () => {
     <FlatList
       ListHeaderComponent={Stories}
       data={posts}
-      keyExtractor={({ imageUri }) => imageUri}
+      keyExtractor={({ id }) => id}
       renderItem={({ item }) => <Post post={item} />}
     />
   );
