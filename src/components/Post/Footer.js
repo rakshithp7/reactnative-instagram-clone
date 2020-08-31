@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import IoniconsIcon from "react-native-vector-icons/SimpleLineIcons";
+import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 
 const Footer = ({
   username,
@@ -39,7 +39,7 @@ const Footer = ({
             )}
           </TouchableWithoutFeedback>
           <FontistoIcon name="comment" size={22} />
-          <IoniconsIcon name="paper-plane" size={23} />
+          <SimpleLineIcon name="paper-plane" size={23} />
         </View>
         <FontAwesomeIcon name="bookmark-o" size={25} />
       </View>

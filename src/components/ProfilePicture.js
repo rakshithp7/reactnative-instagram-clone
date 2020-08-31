@@ -6,11 +6,17 @@ const ProfilePicture = ({ uri, size = 65 }) => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        style={[styles.linearGradient, { width: size + 5, height: size + 5 }]}
+        style={[
+          styles.linearGradient,
+          { width: size + 5, height: size + 5, borderRadius: (size + 5) / 2 },
+        ]}
         colors={["#833ab4", "#fd1d1d", "#fcb045"]}
       >
         <Image
-          style={[styles.image, { width: size, height: size }]}
+          style={[
+            styles.image,
+            { width: size, height: size, borderRadius: size / 2 },
+          ]}
           source={{ uri }}
         />
       </LinearGradient>
@@ -25,12 +31,10 @@ const styles = StyleSheet.create({
     margin: 7,
   },
   linearGradient: {
-    borderRadius: 50,
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
-    borderRadius: 40,
     borderWidth: 2,
     borderColor: "white",
   },

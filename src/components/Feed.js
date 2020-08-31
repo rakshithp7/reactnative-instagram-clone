@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 
 import Stories from "./Stories";
 import Post from "./Post/Post";
@@ -49,6 +49,7 @@ const posts = [
 const Feed = () => {
   return (
     <FlatList
+      style={styles.container}
       ListHeaderComponent={Stories}
       data={posts}
       keyExtractor={({ id }) => id}
@@ -58,3 +59,9 @@ const Feed = () => {
 };
 
 export default Feed;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+  },
+});
