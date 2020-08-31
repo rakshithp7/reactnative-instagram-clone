@@ -1,13 +1,19 @@
 import React from "react";
 import { StyleSheet, Image, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-const ProfilePicture = ({ uri, size = 70 }) => {
+const ProfilePicture = ({ uri, size = 65 }) => {
   return (
-    <View style={[styles.container, { width: size + 6, height: size + 6 }]}>
-      <Image
-        style={[styles.image, { width: size, height: size }]}
-        source={{ uri }}
-      />
+    <View style={styles.container}>
+      <LinearGradient
+        style={[styles.linearGradient, { width: size + 5, height: size + 5 }]}
+        colors={["#833ab4", "#fd1d1d", "#fcb045"]}
+      >
+        <Image
+          style={[styles.image, { width: size, height: size }]}
+          source={{ uri }}
+        />
+      </LinearGradient>
     </View>
   );
 };
@@ -17,13 +23,15 @@ export default ProfilePicture;
 const styles = StyleSheet.create({
   container: {
     margin: 7,
-    borderRadius: 40,
-    borderWidth: 3,
-    borderColor: "#77009a",
+  },
+  linearGradient: {
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     borderRadius: 40,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "white",
   },
 });

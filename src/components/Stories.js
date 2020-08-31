@@ -29,6 +29,16 @@ const data = [
       "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/103171785_683006512481009_6702587271527958792_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=hNm4tUDGQtwAX9kWpF5&oh=b85ae557908f72bd4ebe71d520215ac4&oe=5F73A90E",
     name: "Pranjal",
   },
+  {
+    imageUri:
+      "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/60484589_371153050199875_4557648603924922368_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=SS72jwVNmnAAX__a2n2&oh=1b046994ba010e41d41a2e1db889f788&oe=5F7763D0",
+    name: "Saheer",
+  },
+  {
+    imageUri:
+      "https://scontent-bom1-2.cdninstagram.com/v/t51.2885-19/s150x150/118510185_316806462875236_5107661883107746312_n.jpg?_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_ohc=TtZ1QUJs6RQAX8Ah_nJ&oh=22430ae6b11001fa87fa58a3eaa41609&oe=5F7636BB",
+    name: "Sanath",
+  },
 ];
 
 const Stories = () => {
@@ -50,6 +60,8 @@ export default Stories;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 5,
+    paddingBottom: 2,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "lightgray",
   },
 });
