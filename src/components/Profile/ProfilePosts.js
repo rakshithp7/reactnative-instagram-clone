@@ -46,20 +46,23 @@ const ProfilePosts = ({ userId }) => {
 
   return (
     <View style={styles.container}>
-      {posts?.map((post) => (
-        <TouchableWithoutFeedback
-          key={post.id}
-          onPress={(e) => {
-            handleExplorePress(post.id);
-          }}
-        >
-          <Image
-            style={styles.post}
+      <Text style={styles.postsHeader}>MY POSTS</Text>
+      <View style={styles.postsContainer}>
+        {posts?.map((post) => (
+          <TouchableWithoutFeedback
             key={post.id}
-            source={{ uri: post.image }}
-          />
-        </TouchableWithoutFeedback>
-      ))}
+            onPress={(e) => {
+              handleExplorePress(post.id);
+            }}
+          >
+            <Image
+              style={styles.post}
+              key={post.id}
+              source={{ uri: post.image }}
+            />
+          </TouchableWithoutFeedback>
+        ))}
+      </View>
     </View>
   );
 };
@@ -77,6 +80,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   container: {
+    backgroundColor: "white",
+  },
+  postsHeader: {
+    textAlign: "center",
+    fontFamily: "light",
+    fontSize: 20,
+    alignSelf: "center",
+    padding: 10,
+    width: "100%",
+    borderTopWidth: 1,
+    borderTopColor: "#e3e3e3",
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#d9d9d9",
+  },
+  postsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     backgroundColor: "white",
