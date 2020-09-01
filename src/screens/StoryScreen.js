@@ -14,6 +14,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import Icon from "react-native-vector-icons/Entypo";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 import Moment from "react-moment";
+import { useRoute } from "@react-navigation/native";
 
 import ProfilePicture from "../components/ProfilePicture";
 import { listStorys } from "../graphql/queries";
@@ -22,15 +23,23 @@ const StoryScreen = () => {
   const [stories, setStories] = useState([]);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
 
+  const route = useRoute();
+
   useEffect(() => {
     fetchStories();
-    setActiveStoryIndex(0);
   }, []);
 
   const fetchStories = async () => {
     try {
       const storiesData = await API.graphql(graphqlOperation(listStorys));
       setStories(storiesData.data.listStorys.items);
+
+      const storyClicked = Object.keys(storiesData.data.listStorys.items).find(
+        (key) =>
+          storiesData.data.listStorys.items[key].user.id === route.params.userId
+      );
+
+      setActiveStoryIndex(storyClicked);
     } catch (err) {
       console.log(err.message);
     }
