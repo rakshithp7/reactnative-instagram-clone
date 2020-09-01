@@ -3,7 +3,7 @@ import { StyleSheet, Text, SafeAreaView } from "react-native";
 
 const NotificationScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Text>NotificationScreen</Text>
     </SafeAreaView>
   );
@@ -11,4 +11,10 @@ const NotificationScreen = () => {
 
 export default NotificationScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

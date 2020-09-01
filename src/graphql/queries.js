@@ -5,6 +5,7 @@ export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
+      username
       name
       image
       posts {
@@ -33,6 +34,7 @@ export const listUsers = /* GraphQL */ `
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        username
         name
         image
         posts {
@@ -55,6 +57,7 @@ export const getPost = /* GraphQL */ `
       likes
       user {
         id
+        username
         name
         image
         posts {
@@ -83,6 +86,7 @@ export const listPosts = /* GraphQL */ `
         likes
         user {
           id
+          username
           name
           image
           createdAt
@@ -103,6 +107,7 @@ export const getStory = /* GraphQL */ `
       userID
       user {
         id
+        username
         name
         image
         posts {
@@ -129,6 +134,75 @@ export const listStorys = /* GraphQL */ `
         userID
         user {
           id
+          username
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const userByUsername = /* GraphQL */ `
+  query UserByUsername(
+    $username: String
+    $id: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userByUsername(
+      username: $username
+      id: $id
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        username
+        name
+        image
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const postByUserId = /* GraphQL */ `
+  query PostByUserId(
+    $userID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    postByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        caption
+        image
+        userID
+        likes
+        user {
+          id
+          username
           name
           image
           createdAt

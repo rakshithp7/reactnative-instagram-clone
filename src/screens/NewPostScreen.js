@@ -3,7 +3,7 @@ import { StyleSheet, Text, SafeAreaView } from "react-native";
 
 const NewPostScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Text>NewPostScreen</Text>
     </SafeAreaView>
   );
@@ -11,4 +11,10 @@ const NewPostScreen = () => {
 
 export default NewPostScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

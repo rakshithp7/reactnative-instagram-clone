@@ -23,6 +23,7 @@ export default Story;
 
 const styles = StyleSheet.create({
   name: {
+    fontFamily: "regular",
     textAlign: "center",
   },
 });

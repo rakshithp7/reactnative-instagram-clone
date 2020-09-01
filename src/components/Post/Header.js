@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   name: {
     flex: 1,
-    fontWeight: "bold",
+    fontFamily: "medium",
     color: "#101010",
   },
 });

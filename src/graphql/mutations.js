@@ -8,6 +8,7 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       id
+      username
       name
       image
       posts {
@@ -34,6 +35,7 @@ export const updateUser = /* GraphQL */ `
   ) {
     updateUser(input: $input, condition: $condition) {
       id
+      username
       name
       image
       posts {
@@ -60,6 +62,7 @@ export const deleteUser = /* GraphQL */ `
   ) {
     deleteUser(input: $input, condition: $condition) {
       id
+      username
       name
       image
       posts {
@@ -92,6 +95,7 @@ export const createPost = /* GraphQL */ `
       likes
       user {
         id
+        username
         name
         image
         posts {
@@ -118,6 +122,7 @@ export const updatePost = /* GraphQL */ `
       likes
       user {
         id
+        username
         name
         image
         posts {
@@ -144,6 +149,7 @@ export const deletePost = /* GraphQL */ `
       likes
       user {
         id
+        username
         name
         image
         posts {
@@ -168,6 +174,7 @@ export const createStory = /* GraphQL */ `
       userID
       user {
         id
+        username
         name
         image
         posts {
@@ -192,6 +199,7 @@ export const updateStory = /* GraphQL */ `
       userID
       user {
         id
+        username
         name
         image
         posts {
@@ -216,6 +224,7 @@ export const deleteStory = /* GraphQL */ `
       userID
       user {
         id
+        username
         name
         image
         posts {

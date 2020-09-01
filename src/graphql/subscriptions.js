@@ -5,6 +5,7 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       id
+      username
       name
       image
       posts {
@@ -28,6 +29,7 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       id
+      username
       name
       image
       posts {
@@ -51,6 +53,7 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       id
+      username
       name
       image
       posts {
@@ -80,6 +83,7 @@ export const onCreatePost = /* GraphQL */ `
       likes
       user {
         id
+        username
         name
         image
         posts {
@@ -103,6 +107,7 @@ export const onUpdatePost = /* GraphQL */ `
       likes
       user {
         id
+        username
         name
         image
         posts {
@@ -126,6 +131,7 @@ export const onDeletePost = /* GraphQL */ `
       likes
       user {
         id
+        username
         name
         image
         posts {
@@ -147,6 +153,7 @@ export const onCreateStory = /* GraphQL */ `
       userID
       user {
         id
+        username
         name
         image
         posts {
@@ -168,6 +175,7 @@ export const onUpdateStory = /* GraphQL */ `
       userID
       user {
         id
+        username
         name
         image
         posts {
@@ -189,6 +197,7 @@ export const onDeleteStory = /* GraphQL */ `
       userID
       user {
         id
+        username
         name
         image
         posts {
