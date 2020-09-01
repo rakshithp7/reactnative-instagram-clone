@@ -8,7 +8,7 @@ import AntDesignIcon from "react-native-vector-icons/AntDesign";
 
 import HomeStackScreen from "./stacks/HomeStackScreen";
 import ExploreStackScreen from "./stacks/ExploreStackScreen";
-import NewPostScreen from "./screens/NewPostScreen";
+import NewPostStackScreen from "./stacks/NewPostStackScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileStackScreen from "./stacks/ProfileStackScreen";
 
@@ -50,7 +50,7 @@ const MainNavigation = () => {
     >
       <Tab.Screen name="Home" component={HomeStackScreen} />
       <Tab.Screen name="Explore" component={ExploreStackScreen} />
-      <Tab.Screen name="NewPost" component={NewPostScreen} />
+      <Tab.Screen name="NewPost" component={NewPostStackScreen} />
       <Tab.Screen name="Notifications" component={NotificationScreen} />
       <Tab.Screen name="Profile" component={ProfileStackScreen} />
     </Tab.Navigator>

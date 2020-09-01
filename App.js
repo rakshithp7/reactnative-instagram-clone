@@ -15,7 +15,12 @@ import { AppLoading } from "expo";
 import Screens from "./src/Screens";
 
 import config from "./aws-exports";
-Amplify.configure(config);
+Amplify.configure({
+  ...config,
+  Analytics: {
+    disabled: true,
+  },
+});
 
 const App = () => {
   const [fontsLoaded] = useFonts({
