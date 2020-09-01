@@ -10,7 +10,7 @@ import HomeStackScreen from "./stacks/HomeStackScreen";
 import ExploreStackScreen from "./stacks/ExploreStackScreen";
 import NewPostScreen from "./screens/NewPostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
-import ProfileScreen from "./screens/ProfileScreen";
+import ProfileStackScreen from "./stacks/ProfileStackScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -52,7 +52,7 @@ const MainNavigation = () => {
       <Tab.Screen name="Explore" component={ExploreStackScreen} />
       <Tab.Screen name="NewPost" component={NewPostScreen} />
       <Tab.Screen name="Notifications" component={NotificationScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileStackScreen} />
     </Tab.Navigator>
   );
 };
