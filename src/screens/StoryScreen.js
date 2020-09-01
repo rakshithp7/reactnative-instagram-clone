@@ -31,15 +31,15 @@ const StoryScreen = () => {
 
   const fetchStories = async () => {
     try {
+      const userId = route.params.userId;
       const storiesData = await API.graphql(graphqlOperation(listStorys));
       setStories(storiesData.data.listStorys.items);
 
       const storyClicked = Object.keys(storiesData.data.listStorys.items).find(
-        (key) =>
-          storiesData.data.listStorys.items[key].user.id === route.params.userId
+        (key) => storiesData.data.listStorys.items[key].user.id === userId
       );
 
-      setActiveStoryIndex(storyClicked);
+      setActiveStoryIndex(parseInt(storyClicked));
     } catch (err) {
       console.log(err.message);
     }

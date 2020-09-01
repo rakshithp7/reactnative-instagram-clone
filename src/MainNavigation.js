@@ -7,7 +7,7 @@ import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 
 import HomeStackScreen from "./stacks/HomeStackScreen";
-import ExploreScreen from "./screens/ExploreScreen";
+import ExploreStackScreen from "./stacks/ExploreStackScreen";
 import NewPostScreen from "./screens/NewPostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -49,7 +49,7 @@ const MainNavigation = () => {
       }}
     >
       <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Explore" component={ExploreScreen} />
+      <Tab.Screen name="Explore" component={ExploreStackScreen} />
       <Tab.Screen name="NewPost" component={NewPostScreen} />
       <Tab.Screen name="Notifications" component={NotificationScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />

@@ -10,7 +10,7 @@ const Screens = () => {
   return (
     <RootStack.Navigator>
       <RootStack.Screen
-        name={"Main Navigation"}
+        name="Main Navigation"
         component={MainNavigation}
         options={{
           headerShown: false,
