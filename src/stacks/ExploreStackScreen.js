@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import ExploreScreen from "../screens/ExploreScreen";
-import SinglePost from "../components/SinglePost";
+import SinglePostScreen from "../screens/SinglePostScreen";
 
 const ExploreStack = createStackNavigator();
 
@@ -18,7 +18,7 @@ const ExploreStackScreen = () => {
       />
       <ExploreStack.Screen
         name="SinglePost"
-        component={SinglePost}
+        component={SinglePostScreen}
         options={{
           title: "Post",
         }}

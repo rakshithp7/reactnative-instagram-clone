@@ -14,7 +14,11 @@ import { AppLoading } from "expo";
 
 import Screens from "./src/Screens";
 
+import { StateProvider } from "./src/StateProvider";
+import reducer, { initialState } from "./src/reducer";
+
 import config from "./aws-exports";
+
 Amplify.configure({
   ...config,
   Analytics: {
@@ -35,10 +39,12 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar barStyle="default" />
-      <Screens />
-    </NavigationContainer>
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <NavigationContainer>
+        <StatusBar barStyle="default" />
+        <Screens />
+      </NavigationContainer>
+    </StateProvider>
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import ProfileScreen from "../screens/ProfileScreen";
-import SinglePost from "../components/SinglePost";
+import SinglePostScreen from "../screens/SinglePostScreen";
 
 const ProfileStack = createStackNavigator();
 
@@ -18,7 +18,7 @@ const ProfileStackScreen = () => {
       />
       <ProfileStack.Screen
         name="SinglePost"
-        component={SinglePost}
+        component={SinglePostScreen}
         options={{
           title: "Post",
         }}

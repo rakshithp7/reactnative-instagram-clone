@@ -1,33 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, SafeAreaView, ActivityIndicator } from "react-native";
-import { Auth, API, graphqlOperation } from "aws-amplify";
 
-import { userByUsername } from "../graphql/queries";
 import Profile from "../components/Profile/Profile";
+import { useStateValue } from "../StateProvider";
 
 const ProfileScreen = () => {
-  const [authenticatedUsername, setAuthenticatedUsername] = useState(null);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    Auth.currentUserInfo().then((res) => {
-      setAuthenticatedUsername(res.username);
-    });
-
-    fetchUserDetails();
-  }, [authenticatedUsername]);
-
-  const fetchUserDetails = async () => {
-    try {
-      const userData = await API.graphql(
-        graphqlOperation(userByUsername, { username: authenticatedUsername })
-      );
-
-      setUser(userData.data.userByUsername.items[0]);
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
-  };
+  const [{ user }] = useStateValue();
 
   if (!user) {
     return (
