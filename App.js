@@ -2,7 +2,12 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Amplify from "aws-amplify";
-import { withAuthenticator } from "aws-amplify-react-native";
+import {
+  ConfirmSignUp,
+  ForgotPassword,
+  SignUp,
+  withAuthenticator,
+} from "aws-amplify-react-native";
 import {
   useFonts,
   Roboto_300Light,
@@ -11,6 +16,8 @@ import {
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
 import { AppLoading } from "expo";
+
+import SignIn from "./src/components/Auth/SignIn";
 
 import Screens from "./src/Screens";
 
@@ -48,4 +55,9 @@ const App = () => {
   );
 };
 
-export default withAuthenticator(App);
+export default withAuthenticator(App, false, [
+  <SignIn />,
+  <SignUp />,
+  <ConfirmSignUp />,
+  <ForgotPassword />,
+]);
