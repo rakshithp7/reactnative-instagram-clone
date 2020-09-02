@@ -32,7 +32,7 @@ const ProfilePosts = ({ userId }) => {
     }
   };
 
-  const handleExplorePress = (postId) => {
+  const handlePostPress = (postId) => {
     navigation.navigate("SinglePost", { postId: postId });
   };
 
@@ -52,7 +52,7 @@ const ProfilePosts = ({ userId }) => {
           <TouchableWithoutFeedback
             key={post.id}
             onPress={(e) => {
-              handleExplorePress(post.id);
+              handlePostPress(post.id);
             }}
           >
             <Image
