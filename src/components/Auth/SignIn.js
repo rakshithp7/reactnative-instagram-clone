@@ -6,7 +6,7 @@ import {
   Image,
   SafeAreaView,
   TextInput,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   Dimensions,
 } from "react-native";
 import { Auth } from "aws-amplify";
@@ -55,23 +55,25 @@ const SignIn = (props) => {
             placeholderTextColor={"#939393"}
             onChange={(e) => setPassword(e.nativeEvent.text)}
           />
-          <TouchableWithoutFeedback onPress={(e) => login()}>
+          <TouchableOpacity onPress={(e) => login()}>
             <View style={styles.login}>
               <Text style={styles.loginText}>Log in</Text>
             </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => props.onStateChange("forgotPassword")}
           >
             <Text>Forgot password</Text>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
-        <TouchableWithoutFeedback onPress={() => props.onStateChange("signUp")}>
-          <View style={styles.footer}>
-            <Text>Don't have an account? </Text>
-            <Text style={styles.signup}>Sign up.</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        <View style={styles.footer}>
+          <TouchableOpacity onPress={() => props.onStateChange("signUp")}>
+            <View style={styles.footerText}>
+              <Text>Don't have an account? </Text>
+              <Text style={styles.signup}>Sign up.</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
   } else {
@@ -84,6 +86,7 @@ export default SignIn;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
   },
   imageContainer: {
     flex: 0.3,
@@ -106,7 +109,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: Dimensions.get("window").width,
-    // backgroundColor: "black",
   },
   input: {
     margin: 10,
@@ -137,7 +139,14 @@ const styles = StyleSheet.create({
     flex: 0.1,
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    borderTopWidth: 1,
+    maxHeight: 40,
+    borderTopColor: "#d4d4d4",
+  },
+  footerText: {
+    justifyContent: "center",
+    alignSelf: "center",
+    flexDirection: "row",
   },
   signup: {
     fontWeight: "bold",

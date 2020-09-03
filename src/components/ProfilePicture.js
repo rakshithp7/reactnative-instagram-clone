@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Image, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import EvilIcon from "react-native-vector-icons/EvilIcons";
 
 const ProfilePicture = ({ uri, size = 65 }) => {
   return (
@@ -12,13 +13,17 @@ const ProfilePicture = ({ uri, size = 65 }) => {
         ]}
         colors={["#833ab4", "#fd1d1d", "#fcb045"]}
       >
-        <Image
-          style={[
-            styles.image,
-            { width: size, height: size, borderRadius: size / 2 },
-          ]}
-          source={{ uri }}
-        />
+        {uri === "" ? (
+          <EvilIcon style={styles.profileIcon} name="user" size={size + 5} />
+        ) : (
+          <Image
+            style={[
+              styles.image,
+              { width: size, height: size, borderRadius: size / 2 },
+            ]}
+            source={{ uri }}
+          />
+        )}
       </LinearGradient>
     </View>
   );
@@ -37,5 +42,8 @@ const styles = StyleSheet.create({
   image: {
     borderWidth: 2,
     borderColor: "#e3e3e3",
+  },
+  profileIcon: {
+    color: "#343434",
   },
 });

@@ -11,6 +11,7 @@ import {
 import { Storage } from "aws-amplify";
 import { useRoute } from "@react-navigation/native";
 import { API, graphqlOperation } from "aws-amplify";
+import { useNavigation } from "@react-navigation/native";
 
 import { createPost } from "../graphql/mutations";
 import { useStateValue } from "../StateProvider";
@@ -20,6 +21,8 @@ const NewPostInfoScreen = () => {
   const [uri, setUri] = useState("");
   const [caption, setCaption] = useState("");
   const route = useRoute();
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     getImage();
@@ -45,11 +48,11 @@ const NewPostInfoScreen = () => {
       const newPost = await API.graphql(
         graphqlOperation(createPost, { input: postDetails })
       );
-
-      console.log(newPost);
     } catch (err) {
       console.log("Error creating post: ", err.errors[0].message);
     }
+
+    navigation.navigate("Home");
   };
 
   if (!uri) {

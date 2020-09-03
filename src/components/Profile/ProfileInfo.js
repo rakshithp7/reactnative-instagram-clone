@@ -1,14 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
+import EvilIcon from "react-native-vector-icons/EvilIcons";
 
 const ProfileInfo = ({ name, imageUri }) => {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.profileImage}
-        source={{ uri: imageUri }}
-        resizeMode="contain"
-      />
+      {imageUri === "" ? (
+        <EvilIcon name="user" style={styles.profileIcon} size={120} />
+      ) : (
+        <Image
+          style={styles.profileImage}
+          source={{ uri: imageUri }}
+          resizeMode="contain"
+        />
+      )}
+
       <Text style={styles.name}>Welcome {name}!</Text>
     </View>
   );
@@ -23,6 +29,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     padding: 20,
+  },
+  profileIcon: {
+    color: "#343434",
   },
   profileImage: {
     width: 90,
