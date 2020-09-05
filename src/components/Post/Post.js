@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableWithoutFeedback } from "react-native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import Moment from "react-moment";
+import { API, graphqlOperation } from "aws-amplify";
 
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
@@ -11,6 +12,7 @@ import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 
 import ProfilePicture from "../ProfilePicture";
 import styles from "./styles";
+import { updatePost } from "../../graphql/mutations";
 
 const Post = ({ post }) => {
   const onDoubleTap = (event) => {
@@ -20,11 +22,15 @@ const Post = ({ post }) => {
   };
 
   const [isLiked, setIsLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(0);
+  const [likesCount, setLikesCount] = useState(post.likes);
 
   useEffect(() => {
     setLikesCount(post.likes);
   }, []);
+
+  useEffect(() => {
+    updateLikes();
+  }, [likesCount]);
 
   const onLikePressed = () => {
     setIsLiked(!isLiked);
@@ -32,6 +38,22 @@ const Post = ({ post }) => {
       setLikesCount(likesCount - 1);
     } else {
       setLikesCount(likesCount + 1);
+    }
+  };
+
+  const updateLikes = async () => {
+    if (post.id) {
+      const data = {
+        id: post.id,
+        likes: likesCount,
+      };
+      try {
+        const updateLikesCount = await API.graphql(
+          graphqlOperation(updatePost, { input: data })
+        );
+      } catch (err) {
+        console.log("Error in updating likes:", err.errors[0].message);
+      }
     }
   };
 
@@ -68,7 +90,7 @@ const Post = ({ post }) => {
           <FontAwesomeIcon name="bookmark-o" size={25} />
         </View>
         <View style={styles.footerLikes}>
-          <Text style={styles.likesCount}>{post.likes}</Text>
+          <Text style={styles.likesCount}>{likesCount}</Text>
           <Text> likes</Text>
         </View>
         <View style={styles.footerCaption}>
