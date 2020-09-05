@@ -8,7 +8,9 @@ const Story = ({ user }) => {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate("Story", { userId: user.id });
+    navigation.navigate("Story", {
+      userId: user.id,
+    });
   };
 
   return (

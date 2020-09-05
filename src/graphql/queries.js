@@ -20,6 +20,16 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      stories {
+        items {
+          id
+          image
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -40,8 +50,35 @@ export const listUsers = /* GraphQL */ `
         posts {
           nextToken
         }
+        stories {
+          nextToken
+        }
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const listUsersWithStories = /* GraphQL */ `
+  query ListUsersWithStories(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        name
+        image
+        stories {
+          items {
+            id
+            image
+            createdAt
+          }
+        }
       }
       nextToken
     }
@@ -61,6 +98,9 @@ export const getPost = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt
@@ -111,6 +151,9 @@ export const getStory = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt
@@ -170,6 +213,9 @@ export const userByUsername = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt

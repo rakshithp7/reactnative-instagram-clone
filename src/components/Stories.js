@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
-import { listStorys } from "../graphql/queries";
+import { listStorys, listUsersWithStories } from "../graphql/queries";
 
 import Story from "./Story";
 
 const Stories = () => {
-  const [stories, setStories] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchStories();
+    fetchUsersWithStories();
   }, []);
 
-  const fetchStories = async () => {
+  const fetchUsersWithStories = async () => {
     try {
-      const storiesData = await API.graphql(graphqlOperation(listStorys));
-      setStories(storiesData.data.listStorys.items);
+      const usersData = await API.graphql(
+        graphqlOperation(listUsersWithStories)
+      );
+      setUsers(
+        usersData.data.listUsers.items.filter((x) => x.stories.items.length > 0)
+      );
     } catch (err) {
       console.log(err.message);
     }
@@ -23,10 +27,10 @@ const Stories = () => {
 
   return (
     <FlatList
-      style={styles.container}
-      data={stories}
-      keyExtractor={({ user: { id } }) => id}
-      renderItem={({ item }) => <Story user={item.user} />}
+      style={styles.storiesContainer}
+      data={users}
+      keyExtractor={({ id }) => id}
+      renderItem={({ item }) => <Story user={item} />}
       horizontal
       showsHorizontalScrollIndicator={false}
     />
@@ -37,6 +41,9 @@ export default Stories;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
+  },
+  storiesContainer: {
     paddingBottom: 2,
     borderBottomWidth: 0.5,
     borderBottomColor: "lightgray",

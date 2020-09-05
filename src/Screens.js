@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import MainNavigation from "./MainNavigation";
 import StoryScreen from "./screens/StoryScreen";
+import NewStoryScreen from "./screens/NewStoryScreen";
 
 const RootStack = createStackNavigator();
 
@@ -21,6 +22,13 @@ const Screens = () => {
         component={StoryScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name="NewStory"
+        component={NewStoryScreen}
+        options={{
+          title: "Back to Home",
         }}
       />
     </RootStack.Navigator>

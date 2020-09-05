@@ -20,6 +20,16 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      stories {
+        items {
+          id
+          image
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -39,6 +49,16 @@ export const onUpdateUser = /* GraphQL */ `
           image
           userID
           likes
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      stories {
+        items {
+          id
+          image
+          userID
           createdAt
           updatedAt
         }
@@ -68,6 +88,16 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      stories {
+        items {
+          id
+          image
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -87,6 +117,9 @@ export const onCreatePost = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt
@@ -113,6 +146,9 @@ export const onUpdatePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        stories {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -137,6 +173,9 @@ export const onDeletePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        stories {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -157,6 +196,9 @@ export const onCreateStory = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt
@@ -181,6 +223,9 @@ export const onUpdateStory = /* GraphQL */ `
         posts {
           nextToken
         }
+        stories {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -201,6 +246,9 @@ export const onDeleteStory = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt

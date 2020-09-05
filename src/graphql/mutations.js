@@ -23,6 +23,16 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      stories {
+        items {
+          id
+          image
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -45,6 +55,16 @@ export const updateUser = /* GraphQL */ `
           image
           userID
           likes
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      stories {
+        items {
+          id
+          image
+          userID
           createdAt
           updatedAt
         }
@@ -77,6 +97,16 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      stories {
+        items {
+          id
+          image
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -99,6 +129,9 @@ export const createPost = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt
@@ -128,6 +161,9 @@ export const updatePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        stories {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -155,6 +191,9 @@ export const deletePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        stories {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -178,6 +217,9 @@ export const createStory = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt
@@ -205,6 +247,9 @@ export const updateStory = /* GraphQL */ `
         posts {
           nextToken
         }
+        stories {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -228,6 +273,9 @@ export const deleteStory = /* GraphQL */ `
         name
         image
         posts {
+          nextToken
+        }
+        stories {
           nextToken
         }
         createdAt

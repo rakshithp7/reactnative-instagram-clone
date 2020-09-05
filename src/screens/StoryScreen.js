@@ -17,44 +17,68 @@ import Moment from "react-moment";
 import { useRoute } from "@react-navigation/native";
 
 import ProfilePicture from "../components/ProfilePicture";
-import { listStorys } from "../graphql/queries";
+import { listUsersWithStories } from "../graphql/queries";
 
 const StoryScreen = () => {
+  const [users, setUsers] = useState([]);
   const [stories, setStories] = useState([]);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const [activeUserIndex, setActiveUserIndex] = useState(null);
 
   const route = useRoute();
 
   useEffect(() => {
-    fetchStories();
+    fetchUsersWithStories();
   }, []);
 
-  const fetchStories = async () => {
+  useEffect(() => {
+    if (users.length > 0) {
+      setStories(users[activeUserIndex].stories.items);
+      setActiveStoryIndex(0);
+    }
+  }, [activeUserIndex]);
+
+  const fetchUsersWithStories = async () => {
     try {
       const userId = route.params.userId;
-      const storiesData = await API.graphql(graphqlOperation(listStorys));
-      setStories(storiesData.data.listStorys.items);
-
-      const storyClicked = Object.keys(storiesData.data.listStorys.items).find(
-        (key) => storiesData.data.listStorys.items[key].user.id === userId
+      const userData = await API.graphql(
+        graphqlOperation(listUsersWithStories)
+      );
+      const usersWithStories = userData.data.listUsers.items.filter(
+        (x) => x.stories.items.length > 0
       );
 
-      setActiveStoryIndex(parseInt(storyClicked));
+      const userClicked = Object.keys(usersWithStories).find(
+        (key) => usersWithStories[key].id === userId
+      );
+
+      setUsers(usersWithStories);
+      setActiveUserIndex(parseInt(userClicked));
+      setActiveStoryIndex(0);
     } catch (err) {
       console.log(err.message);
     }
   };
 
   const handleNextStory = () => {
-    if (activeStoryIndex >= stories.length - 1) {
+    if (
+      activeStoryIndex >= stories.length - 1 &&
+      activeUserIndex >= users.length - 1
+    ) {
       return;
+    }
+    if (activeStoryIndex >= stories.length - 1) {
+      setActiveUserIndex(activeUserIndex + 1);
     }
     setActiveStoryIndex(activeStoryIndex + 1);
   };
 
   const handlePreviousStory = () => {
-    if (activeStoryIndex <= 0) {
+    if (activeStoryIndex <= 0 && activeUserIndex <= 0) {
       return;
+    }
+    if (activeStoryIndex <= 0) {
+      setActiveUserIndex(activeUserIndex - 1);
     }
     setActiveStoryIndex(activeStoryIndex - 1);
   };
@@ -69,7 +93,7 @@ const StoryScreen = () => {
     }
   };
 
-  if (!stories) {
+  if (!users) {
     return (
       <SafeAreaView>
         <ActivityIndicator />
@@ -84,13 +108,15 @@ const StoryScreen = () => {
       <TouchableWithoutFeedback onPress={handlePress}>
         <ImageBackground
           style={styles.storyImage}
-          source={{ uri: activeStory?.image }}
+          source={{
+            uri: activeStory?.image,
+          }}
         >
           <View style={styles.storyHeader}>
             <View style={styles.storyInfoContainer}>
-              <ProfilePicture uri={activeStory?.user.image} size={35} />
+              <ProfilePicture uri={users[activeUserIndex]?.image} size={35} />
               <Text style={styles.storyInfoUserName}>
-                {activeStory?.user.name}
+                {users[activeUserIndex]?.name}
               </Text>
               <Moment element={Text} style={styles.storyInfoPostedTime} fromNow>
                 {activeStory?.createdAt}

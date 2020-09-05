@@ -4,21 +4,30 @@ import {
   Text,
   SafeAreaView,
   View,
-  Button,
   TouchableOpacity,
+  Dimensions,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { Storage } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import EntypoIcon from "react-native-vector-icons/Entypo";
 
-const NewPostScreen = () => {
+import { createStory } from "../graphql/mutations";
+import { useStateValue } from "../StateProvider";
+
+const NewStoryScreen = () => {
+  const [{ user }] = useStateValue();
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [ratio, setRatio] = useState(null);
   const [image, setImage] = useState(null);
+  const [uri, setUri] = useState("");
   const camRef = useRef(null);
 
   const navigation = useNavigation();
@@ -31,6 +40,10 @@ const NewPostScreen = () => {
   useEffect(() => {
     uploadImage();
   }, [image]);
+
+  useEffect(() => {
+    addStoryToDB();
+  }, [uri]);
 
   const getCameraPermission = async () => {
     try {
@@ -107,7 +120,15 @@ const NewPostScreen = () => {
           contentType: "image/jpg",
         })
           .then((res) => {
-            navigation.navigate("NewPostInfo", { name: image.name });
+            const ImageName = image.name;
+
+            Storage.get(ImageName)
+              .then((result) => {
+                setUri(result);
+              })
+              .catch((err) =>
+                console.log("Error in getting image uri:", err.message)
+              );
           })
           .catch((err) => {
             console.log("Error uploading image: ", err.message);
@@ -118,13 +139,42 @@ const NewPostScreen = () => {
     }
   };
 
+  const addStoryToDB = async () => {
+    if (uri !== "") {
+      const storyDetails = {
+        image: uri,
+        userID: user.id,
+      };
+
+      try {
+        const newStory = await API.graphql(
+          graphqlOperation(createStory, { input: storyDetails })
+        );
+      } catch (err) {
+        console.log("Error creating story: ", err.errors[0].message);
+      }
+
+      navigation.navigate("Home");
+      Alert.alert(
+        "Done",
+        "Story uploaded! Please restart the app to see the story :)",
+        [
+          {
+            text: "OK",
+          },
+        ],
+        { cancelable: false }
+      );
+    }
+  };
+
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
+        aspect: [3, 4],
+        quality: 0.5,
       });
 
       if (!result.cancelled) {
@@ -150,17 +200,20 @@ const NewPostScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Upload a Picture!</Text>
-      </View>
-      <Camera
-        ref={camRef}
-        style={styles.camera}
-        type={type}
-        onCameraReady={prepareRatio}
-        ratio={ratio}
-      >
-        <View style={styles.cameraScreen}>
+      <View style={styles.mainContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Upload a Story!</Text>
+        </View>
+        <Camera
+          ref={camRef}
+          style={styles.camera}
+          type={type}
+          onCameraReady={prepareRatio}
+          ratio={ratio}
+        >
+          {image ? <ActivityIndicator size="large" /> : null}
+        </Camera>
+        <View style={styles.footer}>
           <TouchableOpacity
             style={styles.touchable}
             onPress={() => {
@@ -173,72 +226,64 @@ const NewPostScreen = () => {
           >
             <MaterialCommunityIcon
               name="camera-switch"
-              style={styles.icon}
               size={40}
               color={"#e3e3e3"}
             />
           </TouchableOpacity>
+          <TouchableOpacity onPress={clickPhoto}>
+            <MaterialCommunityIcon
+              name="circle-outline"
+              size={100}
+              color={"#e3e3e3"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cameraRoll} onPress={pickImage}>
+            <EntypoIcon name="images" size={35} color={"#e3e3e3"} />
+          </TouchableOpacity>
         </View>
-        <Button
-          style={styles.cameraRoll}
-          title="Pick an image from camera roll"
-          onPress={pickImage}
-        />
-      </Camera>
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={clickPhoto}>
-          <MaterialCommunityIcon
-            name="circle-outline"
-            size={100}
-            color={"#e3e3e3"}
-          />
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
-export default NewPostScreen;
+export default NewStoryScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    flex: 0.1,
-    alignItems: "center",
+    backgroundColor: "white",
     justifyContent: "center",
-    maxHeight: 50,
   },
-  headerText: {
-    fontSize: 20,
-    fontFamily: "light",
+  mainContainer: {
+    flex: 0.87,
   },
   camera: {
-    flex: 0.8,
-  },
-  cameraScreen: {
     flex: 1,
-    backgroundColor: "transparent",
+    justifyContent: "center",
+  },
+  header: {
+    position: "absolute",
+    top: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    width: Dimensions.get("window").width,
     flexDirection: "row",
+    marginTop: 20,
+    zIndex: 1,
   },
-  touchable: {
-    flex: 0.2,
-    alignSelf: "flex-end",
-    alignItems: "center",
-  },
-  cameraRoll: {
-    flex: 0.2,
-    alignSelf: "flex-start",
-    alignItems: "center",
-  },
-  icon: {
-    marginBottom: 15,
+  headerText: {
+    color: "white",
+    fontSize: 25,
+    fontFamily: "light",
   },
   footer: {
-    flex: 0.1,
+    position: "absolute",
     padding: 20,
-    justifyContent: "center",
+    bottom: 0,
+    width: Dimensions.get("window").width,
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
   },
 });
