@@ -30,7 +30,7 @@ const Post = ({ post }) => {
 
   const onDoubleTap = (event) => {
     if (event.nativeEvent.state === State.ACTIVE) {
-      setIsLiked(true);
+      onLikePressed();
     }
   };
 
@@ -99,9 +99,11 @@ const Post = ({ post }) => {
           <Text style={styles.likesCount}>{likesCount}</Text>
           <Text> likes</Text>
         </View>
-        <View style={styles.footerCaption}>
-          <Text style={styles.footerUsername}>{post.user.name}</Text>
-          <Text>{post.caption}</Text>
+        <View>
+          <Text>
+            <Text style={styles.footerUsername}>{post.user.username} </Text>
+            {post.caption}
+          </Text>
         </View>
         <TouchableWithoutFeedback onPress={handleCommentsScreen}>
           <Text style={styles.comments}>

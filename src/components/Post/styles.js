@@ -42,10 +42,6 @@ const styles = StyleSheet.create({
   likesCount: {
     fontWeight: "bold",
   },
-  footerCaption: {
-    flexDirection: "row",
-    marginRight: 40,
-  },
   postedAt: {
     marginTop: 2,
     fontSize: 12,

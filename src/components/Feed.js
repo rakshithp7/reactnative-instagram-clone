@@ -46,6 +46,7 @@ const Feed = () => {
       }
       keyExtractor={({ id }) => id}
       renderItem={({ item }) => <Post post={item} />}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
