@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 
 import HomeScreen from "../screens/HomeScreen";
+import CommentsScreen from "../screens/CommentsScreen";
 
 const HomeStack = createStackNavigator();
 
@@ -44,6 +45,13 @@ const HomeStackScreen = () => {
           headerRightContainerStyle: {
             marginRight: 15,
           },
+        }}
+      />
+      <HomeStack.Screen
+        name="Comments"
+        component={CommentsScreen}
+        options={{
+          title: "Comments",
         }}
       />
     </HomeStack.Navigator>

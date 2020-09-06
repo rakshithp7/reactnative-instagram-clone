@@ -55,6 +55,9 @@ const styles = StyleSheet.create({
     marginRight: 5,
     fontWeight: "bold",
   },
+  comments: {
+    color: "gray",
+  },
 });
 
 export default styles;

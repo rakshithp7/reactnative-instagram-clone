@@ -4,6 +4,7 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import Moment from "react-moment";
 import { API, graphqlOperation } from "aws-amplify";
+import { useNavigation } from "@react-navigation/native";
 
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
@@ -15,14 +16,9 @@ import styles from "./styles";
 import { updatePost } from "../../graphql/mutations";
 
 const Post = ({ post }) => {
-  const onDoubleTap = (event) => {
-    if (event.nativeEvent.state === State.ACTIVE) {
-      setIsLiked(true);
-    }
-  };
-
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(post.likes);
+  const navigation = useNavigation();
 
   useEffect(() => {
     setLikesCount(post.likes);
@@ -31,6 +27,12 @@ const Post = ({ post }) => {
   useEffect(() => {
     updateLikes();
   }, [likesCount]);
+
+  const onDoubleTap = (event) => {
+    if (event.nativeEvent.state === State.ACTIVE) {
+      setIsLiked(true);
+    }
+  };
 
   const onLikePressed = () => {
     setIsLiked(!isLiked);
@@ -55,6 +57,10 @@ const Post = ({ post }) => {
         console.log("Error in updating likes:", err.errors[0].message);
       }
     }
+  };
+
+  const handleCommentsScreen = () => {
+    navigation.navigate("Comments", { postId: post.id });
   };
 
   return (
@@ -97,6 +103,11 @@ const Post = ({ post }) => {
           <Text style={styles.footerUsername}>{post.user.name}</Text>
           <Text>{post.caption}</Text>
         </View>
+        <TouchableWithoutFeedback onPress={handleCommentsScreen}>
+          <Text style={styles.comments}>
+            View {post.comments.items.length} comments
+          </Text>
+        </TouchableWithoutFeedback>
         <Moment
           element={Text}
           style={styles.postedAt}

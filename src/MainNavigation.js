@@ -32,17 +32,19 @@ const MainNavigation = () => {
   }, [authenticatedUsername]);
 
   const fetchUserDetails = async () => {
-    try {
-      const userData = await API.graphql(
-        graphqlOperation(userByUsername, { username: authenticatedUsername })
-      );
+    if (authenticatedUsername) {
+      try {
+        const userData = await API.graphql(
+          graphqlOperation(userByUsername, { username: authenticatedUsername })
+        );
 
-      dispatch({
-        type: actionTypes.SET_USER,
-        user: userData.data.userByUsername.items[0],
-      });
-    } catch (err) {
-      console.log("Error getting userByUsername:", err.errors[0].message);
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: userData.data.userByUsername.items[0],
+        });
+      } catch (err) {
+        console.log("Error getting userByUsername:", err.errors[0].message);
+      }
     }
   };
 

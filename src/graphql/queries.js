@@ -35,6 +35,18 @@ export const getUser = /* GraphQL */ `
     }
   }
 `;
+export const getUserForComment = /* GraphQL */ `
+  query GetUserForComment($id: ID!) {
+    getUser(id: $id) {
+      id
+      username
+      name
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const listUsers = /* GraphQL */ `
   query ListUsers(
     $filter: ModelUserFilterInput
@@ -92,6 +104,17 @@ export const getPost = /* GraphQL */ `
       image
       userID
       likes
+      comments {
+        items {
+          id
+          content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       user {
         id
         username
@@ -124,11 +147,76 @@ export const listPosts = /* GraphQL */ `
         image
         userID
         likes
+        comments {
+          items {
+            id
+          }
+        }
         user {
           id
           username
           name
           image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      content
+      userID
+      postID
+      post {
+        id
+        caption
+        image
+        userID
+        likes
+        comments {
+          nextToken
+        }
+        user {
+          id
+          username
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        content
+        userID
+        postID
+        post {
+          id
+          caption
+          image
+          userID
+          likes
           createdAt
           updatedAt
         }
@@ -246,6 +334,9 @@ export const postByUserId = /* GraphQL */ `
         image
         userID
         likes
+        comments {
+          nextToken
+        }
         user {
           id
           username
@@ -254,6 +345,33 @@ export const postByUserId = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const commentsByPost = /* GraphQL */ `
+  query CommentsByPost(
+    $postID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    commentsByPost(
+      postID: $postID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        content
+        userID
+        postID
         createdAt
         updatedAt
       }

@@ -21,7 +21,18 @@ type Post
   image: String!
   userID: ID!
   likes: Int!
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
   user: User @connection(fields: ["userID"])
+}
+
+type Comment
+@model
+@key(name: "byPost", fields: ["postID"], queryField: "commentsByPost") {
+  id: ID!
+  content: String!
+  userID: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
 }
 
 type Story @model @key(name: "storyByUser", fields: ["userID"]) {

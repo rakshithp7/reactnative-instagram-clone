@@ -111,6 +111,17 @@ export const onCreatePost = /* GraphQL */ `
       image
       userID
       likes
+      comments {
+        items {
+          id
+          content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       user {
         id
         username
@@ -138,6 +149,17 @@ export const onUpdatePost = /* GraphQL */ `
       image
       userID
       likes
+      comments {
+        items {
+          id
+          content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       user {
         id
         username
@@ -165,6 +187,17 @@ export const onDeletePost = /* GraphQL */ `
       image
       userID
       likes
+      comments {
+        items {
+          id
+          content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       user {
         id
         username
@@ -175,6 +208,102 @@ export const onDeletePost = /* GraphQL */ `
         }
         stories {
           nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateComment = /* GraphQL */ `
+  subscription OnCreateComment {
+    onCreateComment {
+      id
+      content
+      userID
+      postID
+      post {
+        id
+        caption
+        image
+        userID
+        likes
+        comments {
+          nextToken
+        }
+        user {
+          id
+          username
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateComment = /* GraphQL */ `
+  subscription OnUpdateComment {
+    onUpdateComment {
+      id
+      content
+      userID
+      postID
+      post {
+        id
+        caption
+        image
+        userID
+        likes
+        comments {
+          nextToken
+        }
+        user {
+          id
+          username
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteComment = /* GraphQL */ `
+  subscription OnDeleteComment {
+    onDeleteComment {
+      id
+      content
+      userID
+      postID
+      post {
+        id
+        caption
+        image
+        userID
+        likes
+        comments {
+          nextToken
+        }
+        user {
+          id
+          username
+          name
+          image
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
