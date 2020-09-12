@@ -8,7 +8,7 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
+import { Auth, API, graphqlOperation } from "aws-amplify";
 
 import { createUser } from "../../graphql/mutations";
 

@@ -10,16 +10,20 @@ import {
   Alert,
 } from "react-native";
 import { Camera } from "expo-camera";
-import * as ImagePicker from "expo-image-picker";
-import * as Permissions from "expo-permissions";
-import { Storage } from "aws-amplify";
-import { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation, Storage } from "aws-amplify";
 import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
 import { createStory } from "../graphql/mutations";
 import { useStateValue } from "../StateProvider";
+import {
+  getCameraPermission,
+  getCameraRollPermission,
+  prepareRatio,
+  pickImage,
+  clickPhoto,
+} from "../cameraUtils";
 
 const NewStoryScreen = () => {
   const [{ user }] = useStateValue();
@@ -33,7 +37,11 @@ const NewStoryScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    getCameraPermission();
+    const handleGetCameraPermission = async () => {
+      const status = await getCameraPermission();
+      setHasPermission(status);
+    };
+    handleGetCameraPermission();
     getCameraRollPermission();
   }, []);
 
@@ -45,69 +53,19 @@ const NewStoryScreen = () => {
     addStoryToDB();
   }, [uri]);
 
-  const getCameraPermission = async () => {
-    try {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
+  const getRatio = async () => {
+    const ratio = await prepareRatio(camRef);
+    setRatio(ratio);
   };
 
-  const getCameraRollPermission = async () => {
-    try {
-      if (Platform.OS !== "web") {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
+  const handlePickImage = async () => {
+    const res = await pickImage();
+    setImage(res);
   };
 
-  const prepareRatio = async () => {
-    try {
-      const DESIRED_RATIO = "16:9";
-
-      if (Platform.OS === "android" && camRef.current) {
-        const ratios = await camRef.current.getSupportedRatiosAsync();
-
-        // See if the current device has your desired ratio, otherwise get the maximum supported one
-        // Usually the last element of "ratios" is the maximum supported ratio
-        const ratio =
-          ratios.find((ratio) => ratio === DESIRED_RATIO) ||
-          ratios[ratios.length - 1];
-
-        setRatio(ratio);
-      }
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
-  };
-
-  const clickPhoto = async () => {
-    try {
-      const options = {
-        quality: 0.5,
-        base64: false,
-        skipProcessing: false,
-      };
-
-      if (camRef.current) {
-        let photo = await camRef.current.takePictureAsync(options);
-
-        const name = photo.uri.substring(photo.uri.lastIndexOf("/") + 1);
-
-        setImage({
-          uri: photo.uri,
-          name: `${Date.now()}-${name}`,
-        });
-      }
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
+  const handleClickPhoto = async () => {
+    const res = await clickPhoto(camRef);
+    setImage(res);
   };
 
   const uploadImage = async () => {
@@ -157,7 +115,7 @@ const NewStoryScreen = () => {
       navigation.navigate("Home");
       Alert.alert(
         "Done",
-        "Story uploaded! Please restart the app to see the story :)",
+        "Story uploaded!",
         [
           {
             text: "OK",
@@ -165,28 +123,6 @@ const NewStoryScreen = () => {
         ],
         { cancelable: false }
       );
-    }
-  };
-
-  const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [3, 4],
-        quality: 0.5,
-      });
-
-      if (!result.cancelled) {
-        const name = result.uri.substring(result.uri.lastIndexOf("/") + 1);
-
-        setImage({
-          uri: result.uri,
-          name: `${Date.now()}-${name}`,
-        });
-      }
-    } catch (err) {
-      console.log("Error in pickImage:", err.message);
     }
   };
 
@@ -208,7 +144,7 @@ const NewStoryScreen = () => {
           ref={camRef}
           style={styles.camera}
           type={type}
-          onCameraReady={prepareRatio}
+          onCameraReady={getRatio}
           ratio={ratio}
         >
           {image ? <ActivityIndicator size="large" /> : null}
@@ -230,14 +166,14 @@ const NewStoryScreen = () => {
               color={"#e3e3e3"}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={clickPhoto}>
+          <TouchableOpacity onPress={handleClickPhoto}>
             <MaterialCommunityIcon
               name="circle-outline"
               size={100}
               color={"#e3e3e3"}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.cameraRoll} onPress={pickImage}>
+          <TouchableOpacity style={styles.cameraRoll} onPress={handlePickImage}>
             <EntypoIcon name="images" size={35} color={"#e3e3e3"} />
           </TouchableOpacity>
         </View>

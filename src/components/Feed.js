@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { FlatList, RefreshControl, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { FlatList, StyleSheet } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
 
 import Stories from "./Stories";
@@ -14,25 +14,15 @@ const Feed = () => {
     fetchPosts();
   }, []);
 
-  const wait = (timeout) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  };
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchPosts();
-
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-
   const fetchPosts = async () => {
+    setRefreshing(true);
     try {
       const postsData = await API.graphql(graphqlOperation(listPosts));
       setPosts(postsData.data.listPosts.items);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -41,9 +31,8 @@ const Feed = () => {
       style={styles.container}
       ListHeaderComponent={Stories}
       data={posts}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+      refreshing={refreshing}
+      onRefresh={fetchPosts}
       keyExtractor={({ id }) => id}
       renderItem={({ item }) => <Post post={item} />}
       showsVerticalScrollIndicator={false}

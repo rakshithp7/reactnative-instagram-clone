@@ -8,46 +8,61 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Storage } from "aws-amplify";
-import { useRoute } from "@react-navigation/native";
-import { API, graphqlOperation } from "aws-amplify";
-import { useNavigation } from "@react-navigation/native";
+import { API, graphqlOperation, Storage } from "aws-amplify";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { createPost } from "../graphql/mutations";
 import { useStateValue } from "../StateProvider";
 
 const NewPostInfoScreen = () => {
   const [{ user }] = useStateValue();
-  const [uri, setUri] = useState("");
+  const [image, setImage] = useState(null);
   const [caption, setCaption] = useState("");
   const route = useRoute();
 
   const navigation = useNavigation();
 
   useEffect(() => {
-    getImage();
-  }, []);
+    setImage(route.params.image);
+  }, [image]);
 
-  const getImage = () => {
-    const ImageName = route.params.name;
+  const uploadImageToS3 = async () => {
+    try {
+      if (image) {
+        const response = await fetch(image.uri);
+        const blob = await response.blob();
 
-    Storage.get(ImageName)
-      .then((result) => setUri(result))
-      .catch((err) => console.log(err));
+        await Storage.put(image.name, blob, {
+          contentType: "image/jpg",
+        });
+      }
+    } catch (err) {
+      console.log("Error in uploading:", err.message);
+    }
+  };
+
+  const getImageUriFromS3 = async () => {
+    try {
+      const res = await Storage.get(image.name);
+      return res;
+    } catch (err) {
+      console.log("Error in getting image from S3:", err.message);
+    }
   };
 
   const handlePost = async () => {
-    const postDetails = {
-      caption: caption,
-      image: uri,
-      userID: user.id,
-      likes: 0,
-    };
-
     try {
-      const newPost = await API.graphql(
-        graphqlOperation(createPost, { input: postDetails })
-      );
+      await uploadImageToS3();
+      const uri = await getImageUriFromS3();
+
+      const postDetails = {
+        caption: caption,
+        image: uri,
+        userID: user.id,
+        likes: 0,
+      };
+
+      await API.graphql(graphqlOperation(createPost, { input: postDetails }));
     } catch (err) {
       console.log("Error creating post: ", err.errors[0].message);
     }
@@ -55,7 +70,7 @@ const NewPostInfoScreen = () => {
     navigation.navigate("Home");
   };
 
-  if (!uri) {
+  if (!image) {
     return (
       <View style={styles.container}>
         <ActivityIndicator />
@@ -66,7 +81,7 @@ const NewPostInfoScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: uri }} />
+        <Image style={styles.image} source={{ uri: image.uri }} />
         <Text style={styles.instruction}>Add post info:</Text>
       </View>
 

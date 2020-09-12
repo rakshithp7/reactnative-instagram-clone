@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableWithoutFeedback } from "react-native";
-import EntypoIcon from "react-native-vector-icons/Entypo";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import Moment from "react-moment";
 import { API, graphqlOperation } from "aws-amplify";
 import { useNavigation } from "@react-navigation/native";
 
+import EntypoIcon from "react-native-vector-icons/Entypo";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";

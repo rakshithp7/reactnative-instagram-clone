@@ -11,10 +11,11 @@ import {
   TextInput,
 } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
-import Icon from "react-native-vector-icons/Entypo";
-import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 import Moment from "react-moment";
 import { useRoute } from "@react-navigation/native";
+
+import Icon from "react-native-vector-icons/Entypo";
+import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 
 import ProfilePicture from "../components/ProfilePicture";
 import { listUsersWithStories } from "../graphql/queries";

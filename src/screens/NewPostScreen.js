@@ -8,11 +8,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Camera } from "expo-camera";
-import * as ImagePicker from "expo-image-picker";
-import * as Permissions from "expo-permissions";
-import { Storage } from "aws-amplify";
 import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
+
+import {
+  getCameraPermission,
+  getCameraRollPermission,
+  prepareRatio,
+  pickImage,
+  clickPhoto,
+} from "../cameraUtils";
 
 const NewPostScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -24,120 +29,37 @@ const NewPostScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    getCameraPermission();
+    const handleGetCameraPermission = async () => {
+      const status = await getCameraPermission();
+      setHasPermission(status);
+    };
+    handleGetCameraPermission();
     getCameraRollPermission();
   }, []);
 
   useEffect(() => {
-    uploadImage();
+    if (image) {
+      goToPostInfoScreen();
+    }
   }, [image]);
 
-  const getCameraPermission = async () => {
-    try {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
+  const getRatio = async () => {
+    const ratio = await prepareRatio(camRef);
+    setRatio(ratio);
   };
 
-  const getCameraRollPermission = async () => {
-    try {
-      if (Platform.OS !== "web") {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
+  const handlePickImage = async () => {
+    const res = await pickImage();
+    setImage(res);
   };
 
-  const prepareRatio = async () => {
-    try {
-      const DESIRED_RATIO = "16:9";
-
-      if (Platform.OS === "android" && camRef.current) {
-        const ratios = await camRef.current.getSupportedRatiosAsync();
-
-        // See if the current device has your desired ratio, otherwise get the maximum supported one
-        // Usually the last element of "ratios" is the maximum supported ratio
-        const ratio =
-          ratios.find((ratio) => ratio === DESIRED_RATIO) ||
-          ratios[ratios.length - 1];
-
-        setRatio(ratio);
-      }
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
+  const handleClickPhoto = async () => {
+    const res = await clickPhoto(camRef);
+    setImage(res);
   };
 
-  const clickPhoto = async () => {
-    try {
-      const options = {
-        quality: 0.5,
-        base64: false,
-        skipProcessing: false,
-      };
-
-      if (camRef.current) {
-        let photo = await camRef.current.takePictureAsync(options);
-
-        const name = photo.uri.substring(photo.uri.lastIndexOf("/") + 1);
-
-        setImage({
-          uri: photo.uri,
-          name: `${Date.now()}-${name}`,
-        });
-      }
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
-  };
-
-  const uploadImage = async () => {
-    try {
-      if (image) {
-        const response = await fetch(image.uri);
-        const blob = await response.blob();
-
-        Storage.put(image.name, blob, {
-          contentType: "image/jpg",
-        })
-          .then((res) => {
-            navigation.navigate("NewPostInfo", { name: image.name });
-          })
-          .catch((err) => {
-            console.log("Error uploading image: ", err.message);
-          });
-      }
-    } catch (err) {
-      console.log("Error in uploading:", err.message);
-    }
-  };
-
-  const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-
-      if (!result.cancelled) {
-        const name = result.uri.substring(result.uri.lastIndexOf("/") + 1);
-
-        setImage({
-          uri: result.uri,
-          name: `${Date.now()}-${name}`,
-        });
-      }
-    } catch (err) {
-      console.log("Error in pickImage:", err.message);
-    }
+  const goToPostInfoScreen = async () => {
+    navigation.navigate("NewPostInfo", { image: image });
   };
 
   if (!hasPermission || hasPermission === false) {
@@ -157,7 +79,7 @@ const NewPostScreen = () => {
         ref={camRef}
         style={styles.camera}
         type={type}
-        onCameraReady={prepareRatio}
+        onCameraReady={getRatio}
         ratio={ratio}
       >
         <View style={styles.cameraScreen}>
@@ -182,11 +104,11 @@ const NewPostScreen = () => {
         <Button
           style={styles.cameraRoll}
           title="Pick an image from camera roll"
-          onPress={pickImage}
+          onPress={handlePickImage}
         />
       </Camera>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={clickPhoto}>
+        <TouchableOpacity onPress={handleClickPhoto}>
           <MaterialCommunityIcon
             name="circle-outline"
             size={100}
