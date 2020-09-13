@@ -4,7 +4,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import Moment from "react-moment";
 
 import ProfilePicture from "./ProfilePicture";
-import { getUserForComment } from "../graphql/queries";
+import { getUser } from "../graphql/queries";
 
 const Comment = ({ comment }) => {
   const [user, setUser] = useState(null);
@@ -17,7 +17,7 @@ const Comment = ({ comment }) => {
     if (comment) {
       try {
         const userData = await API.graphql(
-          graphqlOperation(getUserForComment, { id: comment.userID })
+          graphqlOperation(getUser, { id: comment.userID })
         );
         setUser(userData.data.getUser);
       } catch (err) {
