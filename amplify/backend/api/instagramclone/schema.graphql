@@ -20,8 +20,8 @@ type Post
   caption: String!
   image: String!
   userID: ID!
-  likes: Int!
   comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  likes: [Like] @connection(keyName: "likesByPost", fields: ["id"])
   user: User @connection(fields: ["userID"])
 }
 
@@ -33,6 +33,17 @@ type Comment
   userID: ID!
   postID: ID!
   post: Post @connection(fields: ["postID"])
+}
+
+type Like
+@model(queries: null)
+@key(name: "byUser", fields: ["userID", "postID"])
+@key(name: "likesByPost", fields: ["postID", "userID"]) {
+  id: ID!
+  userID: ID!
+  postID: ID!
+  user: User! @connection(fields: ["userID"])
+  post: Post! @connection(fields: ["postID"])
 }
 
 type Story @model @key(name: "storyByUser", fields: ["userID"]) {

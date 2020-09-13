@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
-import { listStorys, listUsersWithStories } from "../graphql/queries";
+import { listUsersWithStories } from "../graphql/queries";
 
 import Story from "./Story";
 

@@ -14,7 +14,6 @@ export const getUser = /* GraphQL */ `
           caption
           image
           userID
-          likes
           createdAt
           updatedAt
         }
@@ -30,18 +29,6 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const getUserForComment = /* GraphQL */ `
-  query GetUserForComment($id: ID!) {
-    getUser(id: $id) {
-      id
-      username
-      name
-      image
       createdAt
       updatedAt
     }
@@ -103,11 +90,20 @@ export const getPost = /* GraphQL */ `
       caption
       image
       userID
-      likes
       comments {
         items {
           id
           content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
           userID
           postID
           createdAt
@@ -146,10 +142,15 @@ export const listPosts = /* GraphQL */ `
         caption
         image
         userID
-        likes
         comments {
           items {
             id
+          }
+        }
+        likes {
+          items {
+            id
+            userID
           }
         }
         user {
@@ -179,8 +180,10 @@ export const getComment = /* GraphQL */ `
         caption
         image
         userID
-        likes
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         user {
@@ -216,7 +219,6 @@ export const listComments = /* GraphQL */ `
           caption
           image
           userID
-          likes
           createdAt
           updatedAt
         }
@@ -333,8 +335,10 @@ export const postByUserId = /* GraphQL */ `
         caption
         image
         userID
-        likes
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         user {
@@ -372,6 +376,14 @@ export const commentsByPost = /* GraphQL */ `
         content
         userID
         postID
+        post {
+          id
+          caption
+          image
+          userID
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }

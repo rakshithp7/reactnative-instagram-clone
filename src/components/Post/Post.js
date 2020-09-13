@@ -13,20 +13,23 @@ import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 
 import ProfilePicture from "../ProfilePicture";
 import styles from "./styles";
-import { updatePost } from "../../graphql/mutations";
+import { useStateValue } from "../../StateProvider";
+import { createLike, deleteLike } from "../../graphql/mutations";
 
 const Post = ({ post }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(post.likes);
+  const [{ user }] = useStateValue();
+  const [myLike, setMyLike] = useState(null);
+  const [likesCount, setLikesCount] = useState(post.likes.items.length);
   const navigation = useNavigation();
 
   useEffect(() => {
-    setLikesCount(post.likes);
-  }, []);
-
-  useEffect(() => {
-    updateLikes();
-  }, [likesCount]);
+    if (user) {
+      const searchedLike = post.likes.items.find(
+        (like) => like.userID === user.id
+      );
+      setMyLike(searchedLike);
+    }
+  }, [user]);
 
   const onDoubleTap = (event) => {
     if (event.nativeEvent.state === State.ACTIVE) {
@@ -34,28 +37,44 @@ const Post = ({ post }) => {
     }
   };
 
-  const onLikePressed = () => {
-    setIsLiked(!isLiked);
-    if (isLiked) {
-      setLikesCount(likesCount - 1);
-    } else {
+  const submitLike = async () => {
+    const like = {
+      userID: user.id,
+      postID: post.id,
+    };
+
+    try {
+      const res = await API.graphql(
+        graphqlOperation(createLike, { input: like })
+      );
+      setMyLike(res.data.createLike);
       setLikesCount(likesCount + 1);
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  const updateLikes = async () => {
-    if (post.id) {
-      const data = {
-        id: post.id,
-        likes: likesCount,
-      };
-      try {
-        const updateLikesCount = await API.graphql(
-          graphqlOperation(updatePost, { input: data })
-        );
-      } catch (err) {
-        console.log("Error in updating likes:", err.errors[0].message);
-      }
+  const removeLike = async () => {
+    try {
+      await API.graphql(
+        graphqlOperation(deleteLike, { input: { id: myLike.id } })
+      );
+      setLikesCount(likesCount - 1);
+      setMyLike(null);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onLikePressed = async () => {
+    if (!user) {
+      return;
+    }
+
+    if (!myLike) {
+      await submitLike();
+    } else {
+      await removeLike();
     }
   };
 
@@ -84,11 +103,11 @@ const Post = ({ post }) => {
         <View style={styles.footerIcons}>
           <View style={styles.footerLeftIcons}>
             <TouchableWithoutFeedback onPress={onLikePressed}>
-              {isLiked ? (
-                <AntDesignIcon name="heart" size={25} color={"#e73838"} />
-              ) : (
-                <AntDesignIcon name="hearto" size={25} />
-              )}
+              <AntDesignIcon
+                name={!myLike ? "hearto" : "heart"}
+                size={25}
+                color={!myLike ? "black" : "#e73838"}
+              />
             </TouchableWithoutFeedback>
             <FontistoIcon name="comment" size={22} />
             <SimpleLineIcon name="paper-plane" size={23} />

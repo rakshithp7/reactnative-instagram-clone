@@ -59,7 +59,6 @@ const NewPostInfoScreen = () => {
         caption: caption,
         image: uri,
         userID: user.id,
-        likes: 0,
       };
 
       await API.graphql(graphqlOperation(createPost, { input: postDetails }));

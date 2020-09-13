@@ -17,7 +17,6 @@ export const createUser = /* GraphQL */ `
           caption
           image
           userID
-          likes
           createdAt
           updatedAt
         }
@@ -54,7 +53,6 @@ export const updateUser = /* GraphQL */ `
           caption
           image
           userID
-          likes
           createdAt
           updatedAt
         }
@@ -91,7 +89,6 @@ export const deleteUser = /* GraphQL */ `
           caption
           image
           userID
-          likes
           createdAt
           updatedAt
         }
@@ -122,11 +119,20 @@ export const createPost = /* GraphQL */ `
       caption
       image
       userID
-      likes
       comments {
         items {
           id
           content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
           userID
           postID
           createdAt
@@ -163,11 +169,20 @@ export const updatePost = /* GraphQL */ `
       caption
       image
       userID
-      likes
       comments {
         items {
           id
           content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
           userID
           postID
           createdAt
@@ -204,11 +219,20 @@ export const deletePost = /* GraphQL */ `
       caption
       image
       userID
-      likes
       comments {
         items {
           id
           content
+          userID
+          postID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
           userID
           postID
           createdAt
@@ -250,8 +274,10 @@ export const createComment = /* GraphQL */ `
         caption
         image
         userID
-        likes
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         user {
@@ -285,8 +311,10 @@ export const updateComment = /* GraphQL */ `
         caption
         image
         userID
-        likes
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         user {
@@ -320,8 +348,160 @@ export const deleteComment = /* GraphQL */ `
         caption
         image
         userID
-        likes
         comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        user {
+          id
+          username
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createLike = /* GraphQL */ `
+  mutation CreateLike(
+    $input: CreateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    createLike(input: $input, condition: $condition) {
+      id
+      userID
+      postID
+      user {
+        id
+        username
+        name
+        image
+        posts {
+          nextToken
+        }
+        stories {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      post {
+        id
+        caption
+        image
+        userID
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        user {
+          id
+          username
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateLike = /* GraphQL */ `
+  mutation UpdateLike(
+    $input: UpdateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    updateLike(input: $input, condition: $condition) {
+      id
+      userID
+      postID
+      user {
+        id
+        username
+        name
+        image
+        posts {
+          nextToken
+        }
+        stories {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      post {
+        id
+        caption
+        image
+        userID
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        user {
+          id
+          username
+          name
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteLike = /* GraphQL */ `
+  mutation DeleteLike(
+    $input: DeleteLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    deleteLike(input: $input, condition: $condition) {
+      id
+      userID
+      postID
+      user {
+        id
+        username
+        name
+        image
+        posts {
+          nextToken
+        }
+        stories {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      post {
+        id
+        caption
+        image
+        userID
+        comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
         user {

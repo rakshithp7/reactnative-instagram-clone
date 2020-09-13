@@ -16,6 +16,7 @@ const Feed = () => {
 
   const fetchPosts = async () => {
     setRefreshing(true);
+
     try {
       const postsData = await API.graphql(graphqlOperation(listPosts));
       setPosts(postsData.data.listPosts.items);

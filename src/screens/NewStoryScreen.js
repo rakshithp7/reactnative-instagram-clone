@@ -115,7 +115,7 @@ const NewStoryScreen = () => {
       navigation.navigate("Home");
       Alert.alert(
         "Done",
-        "Story uploaded!",
+        "Story uploaded! You might have to reload app to see changes",
         [
           {
             text: "OK",
