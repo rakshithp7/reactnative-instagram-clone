@@ -84,17 +84,17 @@ const ProfileInfo = ({ name, imageUri }) => {
 
   return (
     <View style={styles.container}>
-      {imageUri === "" ? (
-        <TouchableWithoutFeedback onPress={handlePickImage}>
+      <TouchableWithoutFeedback onPress={handlePickImage}>
+        {imageUri === "" ? (
           <EvilIcon name="user" style={styles.profileIcon} size={120} />
-        </TouchableWithoutFeedback>
-      ) : (
-        <Image
-          style={styles.profileImage}
-          source={{ uri: imageUri }}
-          resizeMode="contain"
-        />
-      )}
+        ) : (
+          <Image
+            style={styles.profileImage}
+            source={{ uri: imageUri }}
+            resizeMode="contain"
+          />
+        )}
+      </TouchableWithoutFeedback>
 
       <Text style={styles.name}>Welcome {name}!</Text>
     </View>
