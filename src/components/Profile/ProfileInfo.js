@@ -27,7 +27,7 @@ const ProfileInfo = ({ name, imageUri }) => {
 
   const handlePickImage = async () => {
     await getCameraRollPermission();
-    const res = await pickImage();
+    const res = await pickImage(1, 1);
     setImage(res);
   };
 

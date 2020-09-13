@@ -2,12 +2,12 @@ import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
-const pickImage = async () => {
+const pickImage = async (a1, a2) => {
   try {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [a1, a2],
       quality: 1,
     });
 

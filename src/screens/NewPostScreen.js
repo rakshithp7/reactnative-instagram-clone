@@ -49,7 +49,7 @@ const NewPostScreen = () => {
   };
 
   const handlePickImage = async () => {
-    const res = await pickImage();
+    const res = await pickImage(3, 4);
     setImage(res);
   };
 
